@@ -1,0 +1,746 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="FORM Studio｜形構設計 — Brand identity, graphic design, packaging and digital visual design studio." />
+  <title>FORM Studio｜形構設計</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'Noto Sans TC', 'Arial', 'sans-serif'],
+            display: ['Arial', 'Noto Sans TC', 'sans-serif']
+          },
+          colors: {
+            ink: '#171717',
+            paper: '#F3F0E8',
+            lime: '#C7FF2E'
+          }
+        }
+      }
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+
+  <style>
+    html { scroll-behavior: smooth; }
+    body { background:#F3F0E8; color:#171717; overflow-x:hidden; }
+    ::selection { background:#C7FF2E; color:#171717; }
+    .grid-line { border-color: rgba(23,23,23,.15); }
+    .display { letter-spacing:-0.065em; line-height:.82; }
+    .project-img { transition: transform .7s cubic-bezier(.2,.8,.2,1), filter .7s ease; }
+    .project-card:hover .project-img { transform:scale(1.055); filter:contrast(1.04); }
+    .project-card { transition: transform .5s cubic-bezier(.2,.8,.2,1); }
+    .project-card:hover { transform:translateY(-6px); }
+    .magnetic { transition: transform .25s ease; }
+    .service-number { font-variant-numeric: tabular-nums; }
+    .marquee { white-space:nowrap; }
+    .cursor-dot {
+      position:fixed; width:28px; height:28px; border-radius:50%;
+      background:#C7FF2E; pointer-events:none; z-index:100;
+      transform:translate(-50%,-50%); mix-blend-mode:multiply;
+      opacity:0; transition:transform .2s ease, opacity .2s ease;
+      box-shadow: 0 0 12px rgba(199,255,46,0.5);
+    }
+    .case-panel { display:none; }
+    .case-panel.active { display:block; }
+    .menu-open { overflow:hidden; }
+    @media (max-width: 767px) {
+      .display { letter-spacing:-0.055em; }
+    }
+  </style>
+</head>
+
+<body class="font-sans">
+
+  <div class="cursor-dot" id="cursorDot"></div>
+
+  <!-- NAV -->
+  <header class="fixed top-0 left-0 right-0 z-50 mix-blend-normal backdrop-blur-md bg-[#F3F0E8]/80">
+    <nav class="mx-auto max-w-[1600px] px-5 md:px-8 py-5 flex items-center justify-between">
+      <a href="#top" class="font-black tracking-tight text-lg">FORM<span class="font-normal">®</span></a>
+
+      <div class="hidden md:flex items-center gap-8 text-xs font-semibold tracking-[.14em]">
+        <a class="nav-link hover:opacity-50 transition" href="#works">WORKS</a>
+        <a class="nav-link hover:opacity-50 transition" href="#services">SERVICES</a>
+        <a class="nav-link hover:opacity-50 transition" href="#about">ABOUT</a>
+        <a class="nav-link hover:opacity-50 transition" href="#contact">CONTACT</a>
+      </div>
+
+      <button id="menuBtn" class="md:hidden text-xs font-bold tracking-[.14em]">MENU</button>
+    </nav>
+
+    <div id="mobileMenu" class="hidden fixed inset-0 bg-[#F3F0E8] px-6 pt-28">
+      <div class="flex flex-col gap-5 text-5xl font-black display">
+        <a href="#works" class="mobile-link">WORKS</a>
+        <a href="#services" class="mobile-link">SERVICES</a>
+        <a href="#about" class="mobile-link">ABOUT</a>
+        <a href="#contact" class="mobile-link">CONTACT</a>
+      </div>
+    </div>
+  </header>
+
+  <main id="top">
+
+    <!-- HERO -->
+    <section class="min-h-screen px-5 md:px-8 pt-28 pb-10 max-w-[1600px] mx-auto flex flex-col justify-between">
+      <div class="grid grid-cols-12 gap-4 border-b grid-line pb-5 hero-meta">
+        <p class="col-span-7 md:col-span-4 text-xs uppercase tracking-[.13em]">Independent Design Studio<br>Taichung / Taiwan</p>
+        <p class="hidden md:block md:col-span-4 text-xs uppercase tracking-[.13em]">Illustration / Brand / Graphic / Digital</p>
+        <p class="col-span-5 md:col-span-4 text-right text-xs uppercase tracking-[.13em]">Selected works<br>2024—2026</p>
+      </div>
+
+      <!-- Hero Main Art & Title -->
+      <div class="py-4 md:py-6">
+        <div class="relative h-auto flex items-center mb-6">
+          <h1 id="heroTitle" class="display text-[12vw] md:text-[9.5vw] font-black uppercase transition-all duration-700 leading-tight">FORM</h1>
+        </div>
+
+        <div class="grid grid-cols-12 gap-4 mt-5 md:mt-8">
+          <div class="col-span-12 md:col-span-7">
+            <p class="text-2xl md:text-4xl leading-tight max-w-3xl hero-copy">
+              <span class="inline-block bg-lime text-ink px-3 py-1 font-bold rounded-md mb-2">
+                Shape ideas into
+              </span><br>
+              <span class="inline-block bg-lime text-ink px-3 py-1 font-semibold rounded-md italic">
+                illustrated systems.
+              </span>
+            </p>
+          </div>
+          <div class="col-span-12 md:col-span-5 md:pt-2">
+            <p class="max-w-md text-sm md:text-base leading-7">
+              從手繪插畫概念到數位品牌視覺，建立獨一無二且溫暖有質感的視覺系統。
+              FORM Studio 專注於插畫繪製、品牌識別、平面設計與包裝，
+              將品牌的故事轉化為具有藝術感與辨識度的作品。
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col md:flex-row md:items-end justify-between gap-8">
+        <div class="flex gap-3">
+          <a href="#works" class="magnetic inline-flex items-center gap-3 bg-ink text-white rounded-full px-6 py-3 text-xs font-bold tracking-[.12em] hover:bg-lime hover:text-ink transition-colors">
+            VIEW WORKS <span>↘</span>
+          </a>
+          <a href="#contact" class="magnetic inline-flex items-center gap-3 border border-ink rounded-full px-6 py-3 text-xs font-bold tracking-[.12em] hover:bg-ink hover:text-white transition-colors">
+            CONTACT US
+          </a>
+        </div>
+        <div class="flex items-center gap-3 text-xs tracking-[.12em] uppercase">
+          <span class="w-2 h-2 rounded-full bg-lime border border-ink"></span>
+          Available for selected projects
+        </div>
+      </div>
+    </section>
+
+    <!-- MARQUEE -->
+    <div class="border-y grid-line overflow-hidden py-4">
+      <div class="marquee flex gap-10 text-[11px] font-bold tracking-[.2em] uppercase" id="marquee">
+        <span>ILLUSTRATION / FORM / SYSTEM / STRUCTURE / VISUAL / BRAND / DESIGN /</span>
+        <span>ILLUSTRATION / FORM / SYSTEM / STRUCTURE / VISUAL / BRAND / DESIGN /</span>
+      </div>
+    </div>
+
+    <!-- SERVICES -->
+    <section id="services" class="px-5 md:px-8 max-w-[1600px] mx-auto py-24 md:py-36">
+      <div class="grid grid-cols-12 gap-4 mb-16">
+        <p class="col-span-4 text-xs font-bold tracking-[.14em]">01 / SERVICES</p>
+        <div class="col-span-8">
+          <h2 class="text-5xl md:text-8xl font-black display">WHAT<br>WE DO</h2>
+          <p class="mt-8 max-w-xl text-sm md:text-base leading-7">
+            結合插畫藝術與品牌策略，建立專屬的視覺語言。
+            我們把抽象的概念與故事，轉化為豐富且富有情感的插畫圖騰與品牌系統。
+          </p>
+        </div>
+      </div>
+
+      <div class="border-t grid-line">
+        <article class="service-row grid grid-cols-12 gap-4 py-8 md:py-10 border-b grid-line items-start">
+          <div class="col-span-2 service-number text-xs">01</div>
+          <div class="col-span-5 md:col-span-4">
+            <h3 class="text-2xl md:text-4xl font-bold">Illustration Design</h3>
+            <p class="mt-3 text-xs tracking-[.08em] uppercase opacity-50">藝術插畫繪製</p>
+          </div>
+          <p class="col-span-5 md:col-span-6 text-sm leading-7 max-w-xl">
+            手繪插畫、數位繪圖、角色設計與專屬圖騰創作。
+            為品牌注入獨特的手感溫度與故事性。
+          </p>
+        </article>
+
+        <article class="service-row grid grid-cols-12 gap-4 py-8 md:py-10 border-b grid-line items-start">
+          <div class="col-span-2 service-number text-xs">02</div>
+          <div class="col-span-5 md:col-span-4">
+            <h3 class="text-2xl md:text-4xl font-bold">Brand Identity</h3>
+            <p class="mt-3 text-xs tracking-[.08em] uppercase opacity-50">品牌識別</p>
+          </div>
+          <p class="col-span-5 md:col-span-6 text-sm leading-7 max-w-xl">
+            Logo、標準字、插畫導向的色彩與視覺系統。
+            適合希望建立溫暖、具親和力與手感風格的新興品牌。
+          </p>
+        </article>
+
+        <article class="service-row grid grid-cols-12 gap-4 py-8 md:py-10 border-b grid-line items-start">
+          <div class="col-span-2 service-number text-xs">03</div>
+          <div class="col-span-5 md:col-span-4">
+            <h3 class="text-2xl md:text-4xl font-bold">Packaging Art</h3>
+            <p class="mt-3 text-xs tracking-[.08em] uppercase opacity-50">包裝插畫應用</p>
+          </div>
+          <p class="col-span-5 md:col-span-6 text-sm leading-7 max-w-xl">
+            繪本風禮盒、產品包裝外盒、插畫標籤與封套設計。
+            讓商品在貨架上具備藝術收藏價值。
+          </p>
+        </article>
+
+        <article class="service-row grid grid-cols-12 gap-4 py-8 md:py-10 border-b grid-line items-start">
+          <div class="col-span-2 service-number text-xs">04</div>
+          <div class="col-span-5 md:col-span-4">
+            <h3 class="text-2xl md:text-4xl font-bold">Editorial & Posters</h3>
+            <p class="mt-3 text-xs tracking-[.08em] uppercase opacity-50">書籍與海報創作</p>
+          </div>
+          <p class="col-span-5 md:col-span-6 text-sm leading-7 max-w-xl">
+            活動海報、書籍封面插畫、雜誌插圖與繪本創作。
+            結合排版藝術與繪畫創作，展現深度的視覺美感。
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- WORKS (ILLUSTRATION FOCUS) -->
+    <section id="works" class="bg-[#171717] text-[#F3F0E8] py-24 md:py-36">
+      <div class="px-5 md:px-8 max-w-[1600px] mx-auto">
+        <div class="grid grid-cols-12 gap-4 mb-12">
+          <p class="col-span-4 text-xs font-bold tracking-[.14em] text-[#C7FF2E]">02 / WORKS</p>
+          <div class="col-span-8">
+            <h2 class="text-5xl md:text-8xl font-black display">SELECTED<br>WORKS</h2>
+            <p class="mt-8 max-w-xl text-sm md:text-base leading-7 text-white/65">
+              探索手繪線條、豐富色彩與幾何構圖交織而成的插畫創作專案。
+            </p>
+          </div>
+        </div>
+
+        <div class="flex flex-wrap gap-2 mb-12" id="filters">
+          <button data-filter="all" class="filter-btn active rounded-full border border-[#F3F0E8] px-4 py-2 text-xs tracking-[.12em]">ALL</button>
+          <button data-filter="branding" class="filter-btn rounded-full border border-white/25 px-4 py-2 text-xs tracking-[.12em]">BRANDING</button>
+          <button data-filter="graphic" class="filter-btn rounded-full border border-white/25 px-4 py-2 text-xs tracking-[.12em]">ILLUSTRATION</button>
+          <button data-filter="packaging" class="filter-btn rounded-full border border-white/25 px-4 py-2 text-xs tracking-[.12em]">PACKAGING</button>
+          <button data-filter="digital" class="filter-btn rounded-full border border-white/25 px-4 py-2 text-xs tracking-[.12em]">POSTER</button>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-5 gap-y-14" id="projectGrid">
+          <article class="project-card" data-category="branding" data-case="north">
+            <button class="case-open text-left w-full">
+              <div class="aspect-[4/3] overflow-hidden rounded-lg bg-[#DDE4D5]">
+                <img class="project-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1400&q=85" alt="Botanical Art Illustration">
+              </div>
+              <div class="flex justify-between gap-4 mt-4">
+                <div><h3 class="text-xl font-bold">BOTANICAL FORM</h3><p class="text-xs mt-1 text-white/45">Illustration Identity · 2026</p></div>
+                <span class="text-xl">↗</span>
+              </div>
+            </button>
+          </article>
+
+          <article class="project-card md:mt-24" data-category="packaging" data-case="mori">
+            <button class="case-open text-left w-full">
+              <div class="aspect-[4/3] overflow-hidden rounded-lg bg-[#D6BFA5]">
+                <img class="project-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1400&q=85" alt="Mori Tea Illustration Packaging">
+              </div>
+              <div class="flex justify-between gap-4 mt-4">
+                <div><h3 class="text-xl font-bold">MORI TEA GARDEN</h3><p class="text-xs mt-1 text-white/45">Packaging Illustration · 2025</p></div>
+                <span class="text-xl">↗</span>
+              </div>
+            </button>
+          </article>
+
+          <article class="project-card" data-category="graphic" data-case="noise">
+            <button class="case-open text-left w-full">
+              <div class="aspect-[4/3] overflow-hidden rounded-lg bg-[#A7A1FF]">
+                <img class="project-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1400&q=85" alt="Abstract Art Poster">
+              </div>
+              <div class="flex justify-between gap-4 mt-4">
+                <div><h3 class="text-xl font-bold">SURREAL SPACE</h3><p class="text-xs mt-1 text-white/45">Poster Art · 2025</p></div>
+                <span class="text-xl">↗</span>
+              </div>
+            </button>
+          </article>
+
+          <article class="project-card md:mt-24" data-category="digital" data-case="forma">
+            <button class="case-open text-left w-full">
+              <div class="aspect-[4/3] overflow-hidden rounded-lg bg-[#C7FF2E]">
+                <img class="project-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?auto=format&fit=crop&w=1400&q=85" alt="Anime Illustration Style">
+              </div>
+              <div class="flex justify-between gap-4 mt-4">
+                <div><h3 class="text-xl font-bold">CHARACTER VISION</h3><p class="text-xs mt-1 text-white/45">Digital Art · 2024</p></div>
+                <span class="text-xl">↗</span>
+              </div>
+            </button>
+          </article>
+
+          <article class="project-card" data-category="branding" data-case="field">
+            <button class="case-open text-left w-full">
+              <div class="aspect-[4/3] overflow-hidden rounded-lg bg-[#C9C2B5]">
+                <img class="project-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1400&q=85" alt="Oil Painting Illustration Style">
+              </div>
+              <div class="flex justify-between gap-4 mt-4">
+                <div><h3 class="text-xl font-bold">WILD CANVAS</h3><p class="text-xs mt-1 text-white/45">Hand-Painted · 2024</p></div>
+                <span class="text-xl">↗</span>
+              </div>
+            </button>
+          </article>
+
+          <article class="project-card md:mt-24" data-category="graphic" data-case="archive">
+            <button class="case-open text-left w-full">
+              <div class="aspect-[4/3] overflow-hidden rounded-lg bg-[#B9B9B9]">
+                <img class="project-img w-full h-full object-cover" src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1400&q=85" alt="Editorial Illustration">
+              </div>
+              <div class="flex justify-between gap-4 mt-4">
+                <div><h3 class="text-xl font-bold">EDITORIAL TALES</h3><p class="text-xs mt-1 text-white/45">Book Cover Illustration · 2024</p></div>
+                <span class="text-xl">↗</span>
+              </div>
+            </button>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CASE STUDY -->
+    <section id="caseStudy" class="px-5 md:px-8 max-w-[1600px] mx-auto py-24 md:py-36">
+      <div class="grid grid-cols-12 gap-4 mb-14">
+        <p class="col-span-4 text-xs font-bold tracking-[.14em]">03 / CASE STUDY</p>
+        <div class="col-span-8">
+          <h2 class="text-5xl md:text-8xl font-black display">CASE<br>STUDY</h2>
+          <p class="mt-8 max-w-xl text-sm md:text-base leading-7">
+            細看設計過程：如何將草稿手稿一步步雕琢為成熟的插畫品牌作品。
+          </p>
+        </div>
+      </div>
+
+      <div class="case-panel active" id="case-north">
+        <div class="grid grid-cols-12 gap-5">
+          <div class="col-span-12 md:col-span-7">
+            <img class="w-full aspect-[4/3] object-cover rounded-xl shadow-lg" src="https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1600&q=85" alt="Botanical Art Detailed Case">
+          </div>
+          <div class="col-span-12 md:col-span-5 md:pt-10">
+            <p class="text-xs tracking-[.15em] opacity-50">BOTANICAL FORM / 2026</p>
+            <h3 class="text-4xl md:text-6xl font-black display mt-4">ORGANIC<br>POETRY.</h3>
+            <div class="mt-10 space-y-8">
+              <div><p class="text-xs font-bold tracking-[.12em]">BACKGROUND</p><p class="mt-2 text-sm leading-7 opacity-70">以植物插畫為核心，為自然有機品牌打造溫暖的手繪視覺體驗。</p></div>
+              <div><p class="text-xs font-bold tracking-[.12em]">CHALLENGE</p><p class="mt-2 text-sm leading-7 opacity-70">傳統植物學插畫過於繁複，難以直接應用於簡潔現代的數位媒體中。</p></div>
+              <div><p class="text-xs font-bold tracking-[.12em]">STRATEGY</p><p class="mt-2 text-sm leading-7 opacity-70">提煉植物線條，結合抽象塊面與質感紋理，兼具藝術感與視覺可延伸性。</p></div>
+              <div><p class="text-xs font-bold tracking-[.12em]">RESULT</p><p class="mt-2 text-sm leading-7 opacity-70">成功繪製系列圖騰，應用於品牌包裝、網站圖標與實體周邊商品。</p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mt-12 grid grid-cols-3 gap-4">
+        <button data-case-target="north" class="case-thumb text-left border-t-2 border-ink pt-3">
+          <span class="text-xs font-bold">01 / BOTANICAL FORM</span>
+        </button>
+        <button data-case-target="mori" class="case-thumb text-left border-t grid-line pt-3">
+          <span class="text-xs font-bold">02 / MORI TEA GARDEN</span>
+        </button>
+        <button data-case-target="noise" class="case-thumb text-left border-t grid-line pt-3">
+          <span class="text-xs font-bold">03 / SURREAL SPACE</span>
+        </button>
+      </div>
+    </section>
+
+    <!-- TEAM (ILLUSTRATED PORTRAITS) -->
+    <section id="about" class="bg-[#E5E1D7] py-24 md:py-36">
+      <div class="px-5 md:px-8 max-w-[1600px] mx-auto">
+        <div class="grid grid-cols-12 gap-4 mb-14">
+          <p class="col-span-4 text-xs font-bold tracking-[.14em]">04 / THE TEAM</p>
+          <div class="col-span-8">
+            <h2 class="text-5xl md:text-8xl font-black display">THE<br>ARTISTS</h2>
+            <p class="mt-8 max-w-xl text-sm md:text-base leading-7">
+              Different strokes, one creative story.
+              以不同畫風與專長共同創作具有生命力的視覺作品。
+            </p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-5">
+          <article class="team-card">
+            <div class="aspect-[3/4] bg-[#BDB7AA] overflow-hidden rounded-xl">
+              <img class="w-full h-full object-cover hover:scale-105 transition duration-700" src="https://images.unsplash.com/photo-1578632767115-351597cf2477?auto=format&fit=crop&w=900&q=85" alt="Illustrated Portrait 1">
+            </div>
+            <p class="mt-4 font-bold">LIN / YU</p><p class="text-xs mt-1 opacity-50">LEAD ILLUSTRATOR</p>
+            <p class="text-xs leading-5 mt-3 opacity-70">主視覺繪製、藝術指導與角色設計。</p>
+          </article>
+
+          <article class="team-card md:mt-16">
+            <div class="aspect-[3/4] bg-[#BDB7AA] overflow-hidden rounded-xl">
+              <img class="w-full h-full object-cover hover:scale-105 transition duration-700" src="https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?auto=format&fit=crop&w=900&q=85" alt="Illustrated Portrait 2">
+            </div>
+            <p class="mt-4 font-bold">CHEN / AN</p><p class="text-xs mt-1 opacity-50">BRAND DESIGNER</p>
+            <p class="text-xs leading-5 mt-3 opacity-70">品牌識別、標準字與向量圖案系統。</p>
+          </article>
+
+          <article class="team-card">
+            <div class="aspect-[3/4] bg-[#BDB7AA] overflow-hidden rounded-xl">
+              <img class="w-full h-full object-cover hover:scale-105 transition duration-700" src="https://images.unsplash.com/photo-1563089145-599997674d42?auto=format&fit=crop&w=900&q=85" alt="Illustrated Portrait 3">
+            </div>
+            <p class="mt-4 font-bold">WANG / JIA</p><p class="text-xs mt-1 opacity-50">PACKAGING ARTIST</p>
+            <p class="text-xs leading-5 mt-3 opacity-70">插畫包裝、印刷材質與印前流程。</p>
+          </article>
+
+          <article class="team-card md:mt-16">
+            <div class="aspect-[3/4] bg-[#BDB7AA] overflow-hidden rounded-xl">
+              <img class="w-full h-full object-cover hover:scale-105 transition duration-700" src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=900&q=85" alt="Illustrated Portrait 4">
+            </div>
+            <p class="mt-4 font-bold">KIM / NOA</p><p class="text-xs mt-1 opacity-50">DIGITAL ARTIST</p>
+            <p class="text-xs leading-5 mt-3 opacity-70">數位動態繪圖、互動視覺與網站設計。</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONTACT -->
+    <section id="contact" class="bg-[#171717] text-[#F3F0E8] py-24 md:py-36">
+      <div class="px-5 md:px-8 max-w-[1600px] mx-auto">
+        <div class="grid grid-cols-12 gap-4">
+          <p class="col-span-4 text-xs font-bold tracking-[.14em] text-[#C7FF2E]">05 / CONTACT</p>
+          <div class="col-span-8">
+            <h2 class="text-5xl md:text-[9vw] font-black display">LET'S CREATE<br><span class="text-[#C7FF2E]">TOGETHER.</span></h2>
+            <p class="mt-8 max-w-xl text-sm md:text-base leading-7 text-white/65">
+              如果您有插畫委託、品牌插畫規劃或包裝設計需求，歡迎與 FORM Studio 聯絡。
+            </p>
+          </div>
+        </div>
+
+        <form id="contactForm" class="mt-16 md:mt-24 grid grid-cols-12 gap-x-5 gap-y-10">
+          <label class="col-span-12 md:col-span-6">
+            <span class="text-xs tracking-[.12em] text-white/45">NAME</span>
+            <input required name="name" class="mt-3 w-full bg-transparent border-b border-white/25 py-4 outline-none focus:border-[#C7FF2E] transition" placeholder="Your name">
+          </label>
+          <label class="col-span-12 md:col-span-6">
+            <span class="text-xs tracking-[.12em] text-white/45">EMAIL</span>
+            <input required type="email" name="email" class="mt-3 w-full bg-transparent border-b border-white/25 py-4 outline-none focus:border-[#C7FF2E] transition" placeholder="you@example.com">
+          </label>
+          <label class="col-span-12 md:col-span-6">
+            <span class="text-xs tracking-[.12em] text-white/45">COMPANY / BRAND</span>
+            <input name="company" class="mt-3 w-full bg-transparent border-b border-white/25 py-4 outline-none focus:border-[#C7FF2E] transition" placeholder="Company or brand">
+          </label>
+          <label class="col-span-12 md:col-span-6">
+            <span class="text-xs tracking-[.12em] text-white/45">PROJECT TYPE</span>
+            <select name="type" class="mt-3 w-full bg-transparent border-b border-white/25 py-4 outline-none focus:border-[#C7FF2E] transition">
+              <option class="text-black">Illustration Commission</option>
+              <option class="text-black">Brand Identity</option>
+              <option class="text-black">Packaging Art</option>
+              <option class="text-black">Poster / Editorial</option>
+              <option class="text-black">Other</option>
+            </select>
+          </label>
+          <label class="col-span-12">
+            <span class="text-xs tracking-[.12em] text-white/45">PROJECT DESCRIPTION</span>
+            <textarea name="message" rows="4" class="mt-3 w-full bg-transparent border-b border-white/25 py-4 outline-none resize-none focus:border-[#C7FF2E] transition" placeholder="Tell us about your project..."></textarea>
+          </label>
+          <div class="col-span-12 flex items-center justify-between gap-4">
+            <button type="submit" class="magnetic bg-[#C7FF2E] text-ink rounded-full px-7 py-4 text-xs font-black tracking-[.14em] hover:scale-105 transition">
+              SEND INQUIRY ↗
+            </button>
+            <p id="formMessage" class="text-xs text-white/50"></p>
+          </div>
+        </form>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="bg-[#171717] text-[#F3F0E8] border-t border-white/15 px-5 md:px-8 py-8">
+    <div class="max-w-[1600px] mx-auto flex flex-col md:flex-row justify-between gap-4 text-xs tracking-[.1em]">
+      <p>FORM STUDIO｜形構設計</p>
+      <p>TAICHUNG / TAIWAN · 2026</p>
+      <a href="#top" class="hover:text-[#C7FF2E] transition">BACK TO TOP ↑</a>
+    </div>
+  </footer>
+
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Hero text switching effect (FORM <-> 形構設計) 誇張動態版
+  const heroTitle = document.getElementById("heroTitle");
+  const titles = ["FORM", "形構設計"];
+  let titleIndex = 0;
+
+  // 輔助函式：將文字拆解為單字 <span> 進行獨立動畫
+  function createSplitTitle(text, isChinese) {
+    heroTitle.innerHTML = "";
+    const chars = Array.from(text);
+    chars.forEach(char => {
+      const span = document.createElement("span");
+      span.textContent = char;
+      span.style.display = "inline-block";
+      span.style.transformOrigin = "50% 50% -30px";
+      heroTitle.appendChild(span);
+    });
+    
+    if (isChinese) {
+      heroTitle.classList.remove("text-[12vw]", "md:text-[9.5vw]");
+      heroTitle.classList.add("text-[11vw]", "md:text-[8.8vw]", "tracking-normal");
+    } else {
+      heroTitle.classList.remove("text-[11vw]", "md:text-[8.8vw]", "tracking-normal");
+      heroTitle.classList.add("text-[12vw]", "md:text-[9.5vw]");
+    }
+  }
+
+  // 初始化首次文字結構
+  createSplitTitle(titles[0], false);
+
+  setInterval(() => {
+    const currentSpans = heroTitle.querySelectorAll("span");
+    
+    // 1. 誇張退場動畫：3D旋轉 + 放大 + 上移 + 斜切
+    gsap.to(currentSpans, {
+      y: -120,
+      rotationX: 90,
+      rotationY: -20,
+      skewX: 15,
+      scale: 1.4,
+      opacity: 0,
+      duration: 0.55,
+      stagger: 0.05,
+      ease: "back.in(1.7)",
+      onComplete: () => {
+        titleIndex = (titleIndex + 1) % titles.length;
+        const isChinese = titles[titleIndex] === "形構設計";
+        createSplitTitle(titles[titleIndex], isChinese);
+
+        const newSpans = heroTitle.querySelectorAll("span");
+
+        // 2. 誇張入場動畫：從下方 3D 彈性衝出落地
+        gsap.fromTo(newSpans, 
+          {
+            y: 120,
+            rotationX: -90,
+            rotationY: 20,
+            skewX: -15,
+            scale: 0.3,
+            opacity: 0
+          },
+          {
+            y: 0,
+            rotationX: 0,
+            rotationY: 0,
+            skewX: 0,
+            scale: 1,
+            opacity: 1,
+            duration: 0.85,
+            stagger: 0.07,
+            ease: "back.out(2)"
+          }
+        );
+      }
+    });
+  }, 3400);
+
+  // Hero entrance
+  const heroTl = gsap.timeline({defaults:{ease:"power3.out"}});
+  heroTl
+    .from(".hero-meta", {y:20, opacity:0, duration:.8})
+    .from("#heroTitle", {yPercent:110, opacity:0, duration:1.15}, "-=.45")
+    .from(".hero-copy", {y:35, opacity:0, duration:.7}, "-=.55");
+
+  // ==========================================
+  // GSAP SCROLLTRIGGER 滾動故事感動畫 (Storyline Scroll)
+  // ==========================================
+
+  // 1. Hero 主標題滾動視差與淡出（故事開端）
+  gsap.to("#heroTitle", {
+    scrollTrigger: {
+      trigger: "#top",
+      start: "top top",
+      end: "bottom top",
+      scrub: 1
+    },
+    y: 80,
+    opacity: 0.2,
+    scale: 0.95
+  });
+
+  // 2. 故事章節標題滾動揭幕 (Title Reveals with Scrub)
+  gsap.utils.toArray("section").forEach((section) => {
+    const heading = section.querySelector("h2");
+    if (heading) {
+      gsap.from(heading, {
+        scrollTrigger: {
+          trigger: section,
+          start: "top 85%",
+          end: "top 30%",
+          scrub: 0.8
+        },
+        y: 60,
+        opacity: 0,
+        skewY: 3,
+        ease: "power2.out"
+      });
+    }
+  });
+
+  // 3. 服務項目列表手繪感劃線與逐項故事卡片動畫
+  gsap.utils.toArray(".service-row").forEach((row, i) => {
+    gsap.from(row, {
+      scrollTrigger: {
+        trigger: row,
+        start: "top 88%",
+        toggleActions: "play none none reverse"
+      },
+      y: 40,
+      opacity: 0,
+      duration: 0.8,
+      delay: i * 0.1,
+      ease: "power3.out"
+    });
+  });
+
+  // 4. 精選作品卡片 3D 浮動錯落動畫 (Works Card Parallax Story)
+  gsap.utils.toArray(".project-card").forEach((card, index) => {
+    gsap.fromTo(card,
+      { y: 70, opacity: 0, rotationZ: index % 2 === 0 ? -2 : 2 },
+      {
+        scrollTrigger: {
+          trigger: card,
+          start: "top 85%",
+          toggleActions: "play none none reverse"
+        },
+        y: 0,
+        opacity: 1,
+        rotationZ: 0,
+        duration: 0.9,
+        ease: "power3.out"
+      }
+    );
+  });
+
+  // 5. 團隊藝術家卡片卡片滾動繪本展開效果
+  gsap.utils.toArray(".team-card").forEach((card, i) => {
+    gsap.from(card, {
+      scrollTrigger: {
+        trigger: "#about",
+        start: "top 70%",
+      },
+      y: 60,
+      opacity: 0,
+      scale: 0.9,
+      duration: 0.8,
+      delay: i * 0.12,
+      ease: "back.out(1.5)"
+    });
+  });
+
+  // Marquee
+  gsap.to("#marquee", {
+    xPercent:-50, duration:18, ease:"none", repeat:-1
+  });
+
+  // Project filters
+  const filterButtons = document.querySelectorAll(".filter-btn");
+  const cards = document.querySelectorAll(".project-card");
+  filterButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+      filterButtons.forEach(b => {
+        b.classList.remove("active","bg-[#F3F0E8]","text-[#171717]");
+        b.classList.add("border-white/25");
+      });
+      btn.classList.add("active","bg-[#F3F0E8]","text-[#171717]");
+      const filter = btn.dataset.filter;
+      cards.forEach(card => {
+        const show = filter === "all" || card.dataset.category === filter;
+        gsap.to(card, {
+          opacity: show ? 1 : 0,
+          scale: show ? 1 : .96,
+          duration:.25,
+          onComplete: () => card.style.display = show ? "" : "none"
+        });
+      });
+    });
+  });
+
+  // Case study switching
+  document.querySelectorAll(".case-thumb").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".case-thumb").forEach(b => {
+        b.classList.remove("border-ink");
+        b.classList.add("grid-line");
+      });
+      btn.classList.remove("grid-line");
+      btn.classList.add("border-ink");
+
+      const target = btn.dataset.caseTarget;
+      const panel = document.querySelector(".case-panel.active");
+      const data = {
+        north: {
+          title:"ORGANIC<br>POETRY.",
+          image:"https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&w=1600&q=85",
+          meta:"BOTANICAL FORM / 2026"
+        },
+        mori: {
+          title:"TEA,<br>RECOMPOSED.",
+          image:"https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1600&q=85",
+          meta:"MORI TEA GARDEN / 2025"
+        },
+        noise: {
+          title:"SURREAL<br>DREAM.",
+          image:"https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1600&q=85",
+          meta:"SURREAL SPACE / 2025"
+        }
+      }[target];
+      panel.querySelector("img").src = data.image;
+      panel.querySelector("h3").innerHTML = data.title;
+      panel.querySelector(".text-xs.tracking-\\[\\.15em\\]").textContent = data.meta;
+      gsap.from(panel, {opacity:0, y:25, duration:.5, ease:"power2.out"});
+    });
+  });
+
+  // Mobile menu
+  const menuBtn = document.getElementById("menuBtn");
+  const mobileMenu = document.getElementById("mobileMenu");
+  menuBtn.addEventListener("click", () => {
+    const open = !mobileMenu.classList.contains("hidden");
+    mobileMenu.classList.toggle("hidden");
+    document.body.classList.toggle("menu-open", !open);
+    menuBtn.textContent = open ? "MENU" : "CLOSE";
+  });
+  document.querySelectorAll(".mobile-link").forEach(link => link.addEventListener("click", () => {
+    mobileMenu.classList.add("hidden");
+    document.body.classList.remove("menu-open");
+    menuBtn.textContent = "MENU";
+  }));
+
+  // Cursor
+  const dot = document.getElementById("cursorDot");
+  window.addEventListener("mousemove", e => {
+    dot.style.left = e.clientX + "px";
+    dot.style.top = e.clientY + "px";
+    dot.style.opacity = "1";
+  });
+  document.querySelectorAll("a,button,input,select,textarea").forEach(el => {
+    el.addEventListener("mouseenter",()=>dot.style.transform="translate(-50%,-50%) scale(2.8)");
+    el.addEventListener("mouseleave",()=>dot.style.transform="translate(-50%,-50%) scale(1)");
+  });
+
+  // Magnetic buttons
+  document.querySelectorAll(".magnetic").forEach(btn => {
+    btn.addEventListener("mousemove", e => {
+      const r = btn.getBoundingClientRect();
+      const x = (e.clientX-r.left-r.width/2)*.08;
+      const y = (e.clientY-r.top-r.height/2)*.08;
+      btn.style.transform = `translate(${x}px,${y}px)`;
+    });
+    btn.addEventListener("mouseleave",()=>btn.style.transform="translate(0,0)");
+  });
+
+  // Contact form
+  document.getElementById("contactForm").addEventListener("submit", e => {
+    e.preventDefault();
+    document.getElementById("formMessage").textContent = "Thank you. Your message has been sent.";
+    e.target.reset();
+  });
+</script>
+</body>
+</html>
